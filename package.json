@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "name": "ASP.NET",
+  "private": true,
+  "devDependencies": {
+    "angular": "1.5.8"
+  },
+  "dependencies": {
+    "angular-chart.js": "^1.0.3",
+    "angular-datepicker": "^1.0.5",
+    "chart.js": "^2.4.0"
+  }
+}

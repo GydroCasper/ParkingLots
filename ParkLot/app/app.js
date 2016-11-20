@@ -1,0 +1,1 @@
+﻿var app = angular.module("ParkingLots", ["chart.js", 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);

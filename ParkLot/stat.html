@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Parking Lots</title>
+	<meta charset="utf-8" />
+    <link href="css/app.css" rel="stylesheet" />
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.2.0.js"></script>
+    <script src="example.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="Resources/Chart.bundle.min.js"></script>
+    <script src="Resources/angular-chart.min.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/ctrl.js"></script>
+</head>
+<body>
+    <div ng-app="ParkingLots" ng-controller="ParkingLotController" class="container-fluid">
+        <div class="row" style="margin-bottom:2em;margin-top: 2em;">
+            <div class="col-sm-3">
+                <input type="text" class="form-control" ng-model="main.apiUrl"/>
+            </div>
+            <div class="col-sm-9">
+                <button type="button" class="btn btn-primary" ng-click="func.getData()">Get Data</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+                <canvas id="line" class="chart chart-line" chart-data="graph" chart-labels="labels" chart-series="series" chart-options="options"
+                        chart-dataset-override="datasetOverride"
+                </canvas>
+            </div>
+            <div class="col-sm-3" ng-form="filterForm">
+                Select time range for analysis
+                <br />
+                <br/>
+                <p class="input-group" style="width:20em;">
+                    <input type="text" ng-class="['form-control', {'invalid' : filterForm.$dirty && filterForm.$invalid}]" ng-model="filter.fromDate" show-button-bar="false" ng-change="func.validateFilter()" required
+                            is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" uib-datepicker-popup="dd.MM.yyyy"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    <span class="input-group-btn" id="basic-addon3">
+                        <input type="number" ng-class="['form-control', {'invalid' : filterForm.$dirty && filterForm.$invalid}]" style="width:4em;margin-left:1em;" ng-model="filter.fromHour" ng-change="func.validateFilter()" required/>
+                    </span>
+                    <span class="input-group-btn" id="basic-addon3">
+                        <input type="number" ng-class="['form-control', {'invalid' : filterForm.$dirty && filterForm.$invalid}]" style="width:4em;margin-left:1em" ng-model="filter.fromMinute" ng-change="func.validateFilter()" required/>
+                    </span>
+                </p>
+                <p class="input-group" style="width:20em;">
+                    <input type="text" ng-class="['form-control', {'invalid' : filterForm.$dirty && filterForm.$invalid}]" ng-model="filter.toDate" show-button-bar="false" ng-change="func.validateFilter()" required
+                        is-open="popup3.opened" datepicker-options="dateOptions" ng-required="true" uib-datepicker-popup="dd.MM.yyyy" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open3()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    <span class="input-group-btn" id="basic-addon3">
+                        <input type="number" ng-class="['form-control', {'invalid' : filterForm.$dirty && filterForm.$invalid}]" style="width:4em;margin-left:1em;" ng-model="filter.toHour" ng-change="func.validateFilter()" required/>
+                    </span>
+                    <span class="input-group-btn" id="basic-addon3">
+                        <input type="number" ng-class="['form-control', {'invalid' : filterForm.$dirty && filterForm.$invalid}]" style="width:4em;margin-left:1em" ng-model="filter.toMinute" ng-change="func.validateFilter()" required/>
+                    </span>
+                </p>
+                <button type="button" class="btn btn-primary" ng-click="func.filter()" ng-show="filterForm.$valid">Filter Data</button>
+                <div ng-show="filterForm.$dirty">
+                    <span class="label label-danger" ng-show="filterForm.$error.tooEarly">The start date is less than the earliest arrival</span>
+                    <span class="label label-danger" ng-show="filterForm.$error.tooLate">The finish date is more than the latest departure</span>
+                    <span class="label label-danger" ng-show="filterForm.$error.startDateLaterThanFinishDate">The start date is more than the finish date</span>
+                </div>
+                <div style="margin-top:1em;">
+                    Max cars: {{data.maxPeriods.count}}
+                    <br/>
+                    at time:
+                    <div ng-repeat="interval in data.maxPeriods.dates">
+                        {{interval}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

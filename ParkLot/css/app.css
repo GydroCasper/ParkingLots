@@ -1,0 +1,7 @@
+﻿.m-1 {
+    margin: 1em;
+}
+
+.invalid {
+    border-color: red !important; 
+}
