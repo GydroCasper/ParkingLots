@@ -3,7 +3,7 @@
   "name": "ASP.NET",
   "private": true,
   "devDependencies": {
-    "angular": "1.5.8"
+    "angular": "1.8.0"
   },
   "dependencies": {
     "angular-chart.js": "^1.0.3",
